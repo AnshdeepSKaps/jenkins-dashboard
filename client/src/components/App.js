@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import server from './ServerUrl'
 import React, { useEffect } from 'react'
-import base64 from 'react-native-base64'
-import server from './ServerUrl';
+// import base64 from 'react-native-base64'
 // 119c90789bca7be7f885481fc4b7b17edc
 
 export default function App() {
@@ -21,11 +21,11 @@ export default function App() {
                         return
                     }
 
-                    if (row.children[1].innerHTML == "N/A") {
+                    if (row.children[1].innerHTML === "N/A") {
                         row.children[1].classList.toggle("bg-red")
                         row.children[2].classList.toggle("bg-red")
                     }
-                    else if (row.children[1].innerHTML == row.children[2].innerHTML) {
+                    else if (row.children[1].innerHTML === row.children[2].innerHTML) {
                         row.children[1].classList.toggle("bg-green")
                         row.children[2].classList.toggle("bg-green")
                     }
@@ -52,8 +52,8 @@ export default function App() {
                     <div className='field-name first-col'>Jobs</div>
                     <div className='field-name'>Last Build</div>
                     <div className='field-name'>Last Good Run</div>
-                    <div className='field-name'>Last Pipeline Commit</div>
-                    <div className='field-name'>Last Bitbucket Commit</div>
+                    <div className='field-name'>Revision</div>
+                    <div className='field-name'>Branch</div>
                     <div className='field-name'>Unit Tests</div>
                     <div className='field-name'>Code Coverage </div>
                     <div className='field-name'>Sonar Issues</div>
@@ -65,8 +65,8 @@ export default function App() {
                             <div className='table-col first-col'>{job.name}</div>
                             <div className='table-col'>{job.lastBuild ? job.lastBuild.number : "N/A"}</div>
                             <div className='table-col'>{job.lastGoodRun ? job.lastGoodRun.number : "N/A"}</div>
-                            <div className='table-col'></div>
-                            <div className='table-col'></div>
+                            <div className='table-col'>{job.revision.SHA1}</div>
+                            <div className='table-col'>{job.revision.branch[0].name}</div>
                             <div className='table-col'></div>
                             <div className='table-col'></div>
                             <div className='table-col'></div>
