@@ -1,3 +1,17 @@
 {
-    "links": ["http://localhost:8080/"]
+  "links": [
+    {
+      "id": 1,
+      "username": "anshdeep",
+      "url": "http://localhost:8080/",
+      "token": "1120bbaf90e839faba150940d72af60215"
+    },
+    {
+      "id": 2,
+      "username": "somerandomguy",
+      "url": "http://something:8080/",
+      "token": "1120bbaf90e839zzzzzzzzzzzzzzzzzzzz"
+    }
+    
+  ]
 }

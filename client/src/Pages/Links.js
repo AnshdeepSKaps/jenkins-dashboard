@@ -1,29 +1,68 @@
-import React, { useState } from 'react'
+import server from '../components/ServerUrl'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 
 export default function Links() {
 
     const [url, setUrl] = useState({
         id: 0,
+        username: "",
         url: "",
         token: ""
     })
-
+    
     const [urls, setUrls] = useState([])
     const [id, setId] = useState(1)
+    
+    useEffect(() => {
+        const fetchLinks = async () => {
+            fetch(server.url + "/links")
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(ele => {
+                        let temp = urls
+                        temp.push(ele)
+                        setUrls(temp)
+                    })
+                    setId(data.length + 1)
+                })
+        }
+        fetchLinks()
+    }, [])
 
     const addURL = () => {
-        // console.log(url)
+        if (url.slice(-1) !== "/") setUrl(url + "/")
         setUrls([...urls, { ...url }])
-        console.log(urls)
         setId(id + 1)
     }
 
     const handleChange = (e) => {
         setUrl({
             ...url,
+            id: id,
             [e.target.name]: e.target.value
         })
+    }
+
+    const handleSave = () => {
+
+        const data = urls
+        fetch(server.url + "/links", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "ok") window.alert("Saved!")
+            })
+    }
+
+    const handleDelete = (id) => {
+        setUrls(urls.filter(ele => ele.id !== id))
+        setId(id - 1)
     }
 
     return (
@@ -31,24 +70,30 @@ export default function Links() {
             <Navbar />
             <h1 className='text-center mt-4'>Jenkins Instance URLs</h1>
 
-            <div className="url-input w-75 mx-auto mt-4 d-flex flex-col">
+            <div className="url-input w-75 mx-auto mt-4">
                 <div className='d-flex align-items-center'>{id}</div>
-                <input name="url" onChange={handleChange} className='w-50' type="text" placeholder="URL" />
-                <input name="token" onChange={handleChange} className='w-50' type="text" placeholder="Token" />
+                <input name="username" onChange={handleChange} className='' type="text" placeholder="Username" />
+                <input name="url" onChange={handleChange} className='' type="text" placeholder="URL" />
+                <input name="token" onChange={handleChange} className='' type="text" placeholder="Token" />
                 <div onClick={addURL} className="btn btn-success">Add</div>
             </div>
 
-            <div className='d-flex flex-column align-items-center justify-content-center mt-5'>
+            <div className='mt-5 p-5 link-container'>
+
                 {
                     urls && urls.map((ele) => {
-                        return <div className="d-flex align-items-center justify-content-center">
+                        return <div className="link">
                             <div>{ele.id}</div>
+                            <div>{ele.username}</div>
                             <div>{ele.url}</div>
-                            <div>{ele.token}</div>
+                            <div onClick={() => handleDelete(ele.id)} className="btn btn-danger">Delete</div>
                         </div>
                     })
                 }
+
+                <div onClick={handleSave} className="btn btn-success mt-5 w-25 mx-auto">Save</div>
             </div>
+
 
 
 
