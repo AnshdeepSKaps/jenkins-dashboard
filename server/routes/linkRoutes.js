@@ -1,10 +1,21 @@
 import fs from 'fs'
+import path from 'path'
 import express from 'express'
+import { fileURLToPath } from 'url';
 
 const router = express.Router()
 
-let file = fs.readFileSync("links.json")
-file = JSON.parse(file)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let file = {links: []}
+try{
+    let file = fs.readFileSync(path.resolve(__dirname, "../links.json")) 
+    file = JSON.parse(file)
+}
+catch{
+    console.log("links.json not found")
+}
 
 router.get("", (req, res) => {
 

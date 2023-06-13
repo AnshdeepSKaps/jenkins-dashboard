@@ -1,7 +1,8 @@
 import React from 'react'
-import server from '../components/ServerUrl';
-import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar';
+import { useState, useEffect } from 'react'
+import server from '../components/ServerUrl';
+import { CButton, CSpinner } from '@coreui/react'
 
 export default function Jobs() {
 
@@ -46,7 +47,14 @@ export default function Jobs() {
         <div>
             <Navbar />
 
-            <h1 className='text-center mt-3 mb-5'>Your Jobs</h1>
+            <h1 className='text-center mt-3 mb-3'>Your Jobs</h1>
+
+            <div className='w-25 mb-3 mx-auto d-flex align-items-center justify-content-center'>
+                {!res && <CButton disabled>
+                    <CSpinner component="span" size="sm" aria-hidden="true" />
+                    Loading...
+                </CButton>}
+            </div>
 
             <div className='table-container mx-auto d-flex flex-column justify-content-center'>
                 <div className='table-row'>
@@ -60,6 +68,7 @@ export default function Jobs() {
                     <div className='field-name'>Sonar Issues</div>
                     <div className='field-name'>Latest Final Build Package</div>
                 </div>
+
                 {res &&
                     res.map((job) => {
                         return <div class="table-row">

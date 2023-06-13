@@ -10,10 +10,10 @@ export default function Links() {
         url: "",
         token: ""
     })
-    
+
     const [urls, setUrls] = useState([])
     const [id, setId] = useState(1)
-    
+
     useEffect(() => {
         const fetchLinks = async () => {
             fetch(server.url + "/links")
@@ -31,7 +31,7 @@ export default function Links() {
     }, [])
 
     const addURL = () => {
-        if (url.slice(-1) !== "/") setUrl(url + "/")
+        if (url.url.slice(-1) !== "/") setUrl(url + "/")
         setUrls([...urls, { ...url }])
         setId(id + 1)
     }
