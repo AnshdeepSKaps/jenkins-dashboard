@@ -8,17 +8,17 @@ const router = express.Router()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let file = {links: []}
-try{
-    let file = fs.readFileSync(path.resolve(__dirname, "../links.json")) 
+let file = { links: [] }
+try {
+    file = fs.readFileSync(path.resolve(__dirname, "../links.json"))
     file = JSON.parse(file)
 }
-catch{
+catch {
     console.log("links.json not found")
 }
 
 router.get("", (req, res) => {
-
+    
     const data = file.links.map((link) => {
         return { id: link.id, username: link.username, url: link.url }
     })

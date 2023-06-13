@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 let file = { links: [] }
 try {
-    let file = fs.readFileSync(path.resolve(__dirname, "../links.json"))
+    file = fs.readFileSync(path.resolve(__dirname, "../links.json"))
     file = JSON.parse(file)
 }
 catch {
@@ -31,14 +31,16 @@ router.get('', async (req, res) => {    // get all jobs
             })
             const response = await data.json();
 
-            response.jobs.forEach((job) => {
+            const allPromise = Promise.all(response.jobs.map(async (job) => {
 
-                fetch(ele.url + "job/" + job.name + "/api/json", {
+                return fetch(ele.url + "job/" + job.name + "/api/json", {
                     headers: {
                         "Authorization": 'Basic ' + btoa(ele.username + ":" + ele.token)
                     }
                 })
-                    .then(res => res.json())
+                    .then(res => {
+                        return res.json()
+                    })
                     .then(data => {
                         let jobData = {
                             name: data.name,
@@ -58,16 +60,20 @@ router.get('', async (req, res) => {    // get all jobs
                         jobs.push(jobData)
                         return "Done"
                     })
-            })
+            }))
+
+            return allPromise
+
         }
         catch (err) {
             console.log("Some error with " + ele.url)
             return "Invalid"
         }
-    })                                                           // for each closing
-    )                                                           // promise.all closing
-        .then(() => {
-            // console.log(jobs)
+    })
+    )
+        .then((results) => {
+            // console.log("results", results)
+            // console.log("jobs", jobs)
             res.json(jobs)
         })
 

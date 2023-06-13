@@ -31,7 +31,11 @@ export default function Links() {
     }, [])
 
     const addURL = () => {
-        if (url.url.slice(-1) !== "/") setUrl(url + "/")
+        if (url.url.slice(-1) !== "/") {
+            let temp = url
+            temp.url = url.url + "/"
+            setUrl(temp)
+        }
         setUrls([...urls, { ...url }])
         setId(id + 1)
     }
@@ -62,7 +66,7 @@ export default function Links() {
 
     const handleDelete = (id) => {
         setUrls(urls.filter(ele => ele.id !== id))
-        setId(id - 1)
+        // setId(id - 1)
     }
 
     return (
