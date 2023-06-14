@@ -67,6 +67,7 @@ router.get('', async (req, res) => {    // get all jobs
         }
         catch (err) {
             console.log("Some error with " + ele.url)
+            console.log(err)
             return "Invalid"
         }
     })
