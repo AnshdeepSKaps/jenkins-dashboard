@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 export default function Links() {
 
     const [url, setUrl] = useState({
-        id: 0,
+        id: 1,
         username: "",
         url: "",
         token: ""
@@ -24,7 +24,9 @@ export default function Links() {
                         temp.push(ele)
                         setUrls(temp)
                     })
-                    setId(data.length + 1)
+                    if (data.length > 0)
+                        setId(data.slice(-1).id + 1)
+
                 })
         }
         fetchLinks()
@@ -97,9 +99,6 @@ export default function Links() {
 
                 <div onClick={handleSave} className="btn btn-success mt-5 w-25 mx-auto">Save</div>
             </div>
-
-
-
 
         </div>
     )
