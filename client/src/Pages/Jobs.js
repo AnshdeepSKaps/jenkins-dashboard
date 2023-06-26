@@ -75,8 +75,8 @@ export default function Jobs() {
                             <div className='table-col first-col'>{job.name}</div>
                             <div className='table-col'>{job.lastBuild ? job.lastBuild.number : "N/A"}</div>
                             <div className='table-col'>{job.lastGoodRun ? job.lastGoodRun.number : "N/A"}</div>
-                            <div className='table-col'>{job.revision.SHA1}</div>
-                            <div className='table-col'>{job.revision.branch[0].name}</div>
+                            <div className='table-col'>{job.revision.SHA1 ? job.revision.SHA1 : "N/A"}</div>
+                            <div className='table-col'>{job.revision.branch[0].name ? job.revision.branch[0].name : "N/A"}</div>
                             <div className='table-col'></div>
                             <div className='table-col'></div>
                             <div className='table-col'></div>
