@@ -68,7 +68,6 @@ export default function Links() {
 
     const handleDelete = (id) => {
         setUrls(urls.filter(ele => ele.id !== id))
-        // setId(id - 1)
     }
 
     return (

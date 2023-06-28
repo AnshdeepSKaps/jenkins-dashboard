@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react'
 import server from '../components/ServerUrl';
+import TableRow from '../components/TableRow';
+import { ErrorBoundary } from "react-error-boundary"
 import { CButton, CSpinner } from '@coreui/react'
 
 export default function Jobs() {
@@ -70,20 +72,13 @@ export default function Jobs() {
                 </div>
 
                 {res &&
-                    res.map((job) => {
-                        return <div class="table-row">
-                            <div className='table-col first-col'>{job.name}</div>
-                            <div className='table-col'>{job.lastBuild ? job.lastBuild.number : "N/A"}</div>
-                            <div className='table-col'>{job.lastGoodRun ? job.lastGoodRun.number : "N/A"}</div>
-                            <div className='table-col'>{job.revision.SHA1 ? job.revision.SHA1 : "N/A"}</div>
-                            <div className='table-col'>{job.revision.branch[0].name ? job.revision.branch[0].name : "N/A"}</div>
-                            <div className='table-col'></div>
-                            <div className='table-col'></div>
-                            <div className='table-col'></div>
-                            <div className='table-col'></div>
-                        </div>
-                    })
+                    res.map((job) => (
+                        <ErrorBoundary fallback={<div className='ps-3 bg-danger text-white'>Some Error with {job.name}</div>}>
+                            <TableRow job={job} />
+                        </ErrorBoundary>
+                    ))
                 }
+
             </div>
         </div>
     )

@@ -57,6 +57,7 @@ router.get('', async (req, res) => {    // get all jobs
                     .then(([res, jobData]) => Promise.all([res.json(), jobData]))
                     .then(([data, jobData]) => {
                         jobData.revision = (data.actions[1].lastBuiltRevision)
+                        // jobData.revision = null 
                         jobs.push(jobData)
                         return "Done"
                     })
