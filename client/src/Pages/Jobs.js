@@ -38,6 +38,8 @@ export default function Jobs() {
                 })
 
                 Array.from(rows)[rows.length - 1].style.borderBottom = "2px solid black"
+
+                console.log(data)
             })
     }
 

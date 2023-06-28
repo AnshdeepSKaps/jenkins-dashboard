@@ -1,32 +1,30 @@
+import { v4 as uuid } from 'uuid';
+import Navbar from '../components/Navbar'
 import server from '../components/ServerUrl'
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 
 export default function Links() {
 
     const [url, setUrl] = useState({
-        id: 1,
+        id: uuid(),
         username: "",
         url: "",
         token: ""
     })
 
     const [urls, setUrls] = useState([])
-    const [id, setId] = useState(1)
+    const [id, setId] = useState(uuid())
 
     useEffect(() => {
         const fetchLinks = async () => {
             fetch(server.url + "/links")
                 .then(res => res.json())
                 .then(data => {
+                    let temp = []
                     data.forEach(ele => {
-                        let temp = urls
                         temp.push(ele)
-                        setUrls(temp)
                     })
-                    if (data.length > 0)
-                        setId(data.slice(-1).id + 1)
-
+                    setUrls(temp)
                 })
         }
         fetchLinks()
@@ -39,7 +37,7 @@ export default function Links() {
             setUrl(temp)
         }
         setUrls([...urls, { ...url }])
-        setId(id + 1)
+        setId(uuid())
     }
 
     const handleChange = (e) => {
@@ -76,7 +74,7 @@ export default function Links() {
             <h1 className='text-center mt-4'>Jenkins Instance URLs</h1>
 
             <div className="url-input w-75 mx-auto mt-4">
-                <div className='d-flex align-items-center'>{id}</div>
+                {/* <div className='d-flex align-items-center'>{id}</div> */}
                 <input name="username" onChange={handleChange} className='' type="text" placeholder="Username" />
                 <input name="url" onChange={handleChange} className='' type="text" placeholder="URL" />
                 <input name="token" onChange={handleChange} className='' type="text" placeholder="Token" />
@@ -88,7 +86,7 @@ export default function Links() {
                 {
                     urls && urls.map((ele) => {
                         return <div className="link">
-                            <div>{ele.id}</div>
+                            {/* <div>{ele.id}</div> */}
                             <div>{ele.username}</div>
                             <div>{ele.url}</div>
                             <div onClick={() => handleDelete(ele.id)} className="btn btn-danger">Delete</div>
