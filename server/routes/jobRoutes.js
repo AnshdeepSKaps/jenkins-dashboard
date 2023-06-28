@@ -26,9 +26,10 @@ router.get('', async (req, res) => {    // get all jobs
         try {
             const data = await fetch(ele.url + "api/json", {
                 headers: {
-                    "Authorization": 'Basic ' + btoa(ele.username + ":" + ele.token)
+                    "Authorization": 'Basic ' + btoa(ele.username + ":" + ele.token),
                 }
             })
+
             const response = await data.json();
 
             const allPromise = Promise.all(response.jobs.map(async (job) => {
@@ -57,9 +58,7 @@ router.get('', async (req, res) => {    // get all jobs
                     .then(([res, jobData]) => Promise.all([res.json(), jobData]))
                     .then(([data, jobData]) => {
                         jobData.revision = (data.actions[1].lastBuiltRevision)
-                        // jobData.revision = null 
                         jobs.push(jobData)
-                        return "Done"
                     })
             }))
 
@@ -68,14 +67,11 @@ router.get('', async (req, res) => {    // get all jobs
         }
         catch (err) {
             console.log("Some error with " + ele.url)
-            console.log(err)
-            return "Invalid"
         }
     })
     )
         .then((results) => {
-            // console.log("results", results)
-            // console.log("jobs", jobs)
+            console.log(jobs)
             res.json(jobs)
         })
 
